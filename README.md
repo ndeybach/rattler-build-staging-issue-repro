@@ -1,4 +1,4 @@
-# Minimal repro: staging + `ignore_run_exports`
+# Minimal reproduction: staging + `ignore_run_exports`
 
 This recipe is intended to reproduce the staging behavior seen during a conda-forge
 v1 migration:
