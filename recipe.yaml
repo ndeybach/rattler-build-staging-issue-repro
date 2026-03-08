@@ -1,0 +1,46 @@
+schema_version: 1
+
+context:
+  version: "0.0.1"
+
+recipe:
+  name: staging-ignore-run-exports-repro
+  version: ${{ version }}
+
+build:
+  number: 0
+
+outputs:
+  - staging:
+      name: build-stage
+    requirements:
+      host:
+        - python
+        - numpy
+    build:
+      script:
+        - mkdir -p "${PREFIX}/share/repro"
+        - printf 'payload\n' > "${PREFIX}/share/repro/payload.txt"
+
+  - package:
+      name: plain-output
+    inherit: build-stage
+    build:
+      script:
+        - ":"
+      files:
+        include:
+          - share/repro/payload.txt
+    requirements:
+      ignore_run_exports:
+        by_name:
+          - python
+          - numpy
+    tests:
+      - package_contents:
+          files:
+            - share/repro/payload.txt
+
+about:
+  summary: Minimal repro for staging ignore_run_exports inheritance
+  license: BSD-3-Clause
